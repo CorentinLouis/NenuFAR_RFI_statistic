@@ -2,6 +2,14 @@
 */
 # Ignore all sav files (which contain the original RFI stat as a function of time vs. frequency and RFI mitigation levels)
 *.sav
+# Ignore all hdf5 files (which contain the distributions of RFI as a function of various variables and RFI mitigation levels)
+*.hdf5
+# Ignore all png and pdf files 
+*.png
+*.pdf
+
+# Ignore all jupyter notebooks
+*.ipynb
 
 # Allow files at the root level
 !/*
