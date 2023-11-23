@@ -2,7 +2,7 @@ from h5py import File
 import numpy
 from doy_to_ymd import datetime_to_timestamp, timestamp_to_datetime
 
-def save_to_hdf(output_directory,
+def save_to_hdf(output_directory: str = 'rfi_distribution_hdf5/',
                 rfilevel,
                 time_datetime,
                 ffreq,
@@ -88,7 +88,8 @@ def save_to_hdf(output_directory,
         output_file.close()
 
 
-def read_hdf5_file(input_directory, rfilevel):
+def read_hdf5_file(input_directory: 'rfi_distribution_hdf5/',
+                   rfilevel):
         
         with File(input_directory+'rfistat_distributions_rfilevel'+str(rfilevel)+'.hdf5', 'r') as file_hdf5:
                 ffreq = numpy.array(file_hdf5['Frequency'])
