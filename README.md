@@ -3,5 +3,5 @@ Routines for analyzing the radio frequency interference (RFI) environement at th
 
 
 Requirements:
-python 3.8.10
-pip install -r requirements_packages_exoradio.txt
+* python 3.8.10
+* pip install -r requirements_packages_exoradio.txt
