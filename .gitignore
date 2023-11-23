@@ -10,6 +10,3 @@
 
 # Ignore all jupyter notebooks
 *.ipynb
-
-# Allow files at the root level
-!/*
