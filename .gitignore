@@ -1,5 +1,7 @@
 # Ignore all directories (subdirectories)
 */
+# Ignore all sav files (which contain the original RFI stat as a function of time vs. frequency and RFI mitigation levels)
+*.sav
 
 # Allow files at the root level
 !/*
