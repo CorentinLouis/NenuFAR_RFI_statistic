@@ -1,0 +1,5 @@
+# Ignore all directories (subdirectories)
+*/
+
+# Allow files at the root level
+!/*
