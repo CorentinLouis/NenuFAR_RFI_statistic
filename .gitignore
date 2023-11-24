@@ -1,5 +1,10 @@
 # Ignore all directories (subdirectories)
 */
+# Except the following:
+!rfi_distributions_hdf5/
+!rfi_distributions_plots/
+!rfi_distributions_sav/
+
 # Ignore all sav files (which contain the original RFI stat as a function of time vs. frequency and RFI mitigation levels)
 *.sav
 # Ignore all hdf5 files (which contain the distributions of RFI as a function of various variables and RFI mitigation levels)
@@ -10,3 +15,4 @@
 
 # Ignore all jupyter notebooks
 *.ipynb
+
