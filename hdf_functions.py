@@ -2,7 +2,7 @@ from h5py import File
 import numpy
 from doy_to_ymd import datetime_to_timestamp, timestamp_to_datetime
 
-def save_to_hdf(output_directory: str = 'rfi_distribution_hdf5/',
+def save_to_hdf(output_directory,
                 rfilevel,
                 time_datetime,
                 ffreq,
@@ -88,13 +88,13 @@ def save_to_hdf(output_directory: str = 'rfi_distribution_hdf5/',
         output_file.close()
 
 
-def read_hdf5_file(input_directory: 'rfi_distribution_hdf5/',
-                   rfilevel):
+def read_hdf5_file(input_directory, rfilevel):
         
         with File(input_directory+'rfistat_distributions_rfilevel'+str(rfilevel)+'.hdf5', 'r') as file_hdf5:
                 ffreq = numpy.array(file_hdf5['Frequency'])
-                flag = numpy.array(file_hdf5['flag'])
                 time_timestamp = numpy.array(file_hdf5['Time'])
+                flag = numpy.zeros((4, time_timestamp.size, ffreq.size))
+                #flag = numpy.array(file_hdf5['flag'])
                 time_datetime = timestamp_to_datetime(time_timestamp)
                 distribution_observation_numebeam_azimuth = numpy.array(file_hdf5['distribution_observation_numebeam_azimuth'])
                 bins_distribution_observation_numebeam_azimuth = numpy.array(file_hdf5['bins_distribution_observation_numebeam_azimuth'])
