@@ -207,6 +207,7 @@ def plot_rfi_stat(rfilevel,
                    elaz_square, 
                    elaz_polar_projection,
                    plot_distributions_rfi,
+                   plot_time_freq_distributions_rfi,
                    plot_distributions_observations,
                    plot_histograms,
                    time_datetime,
@@ -311,9 +312,8 @@ def plot_rfi_stat(rfilevel,
         plot_1D_distribution_observation(distribution_observation_anabeam_UT, bins_distribution_observation_anabeam_UT, type='universal time', save_image = True, filename = output_directory+'histogram_observations_versus_UT_numebeam', yscale = 'linear')
 
 
-    if plot_distributions_rfi:
-
-        print("###### Plotting RFI time vs. frequency distributions for beam 0######")
+    print("###### Plotting RFI time vs. frequency distributions for beam 0######")
+    if plot_time_freq_distributions_rfi:
         new_ffreq, rebinned_distribution = rebin_distribution_in_frequency(ffreq, flag, 0.1953125)
         plot_flag_freq_versus_time_distribution_with_histograms(time_datetime,
                                                          new_ffreq,
@@ -326,6 +326,7 @@ def plot_rfi_stat(rfilevel,
                                                          cmap = 'Spectral_r',
                                                          shading=shading_distrib_freq)
 
+    if plot_distributions_rfi:
         if universal_time:
             print("###### Plotting universal time vs. frequency distributions for analogic beams ######")
             plot_distribution_freq(ffreq, distribution_flag_data_universaltime_all_ana_beam, type='universal time', shading=shading_distrib_freq, title= 'Frequency vs. universal time distribution of the RFI\n analogic beams', save_image=True, filename = name_pdf+"universaltime_rfilevel"+str(rfilevel)+"_all_ana_beam")
@@ -380,12 +381,14 @@ if __name__ == '__main__':
     parser.add_argument('--input_sav_file_directory', dest = 'intput_sav_file_directory', required = False, type = str, default="./", help = "Input sav file directory location to calculate the distributions (default: './'). Useful if calculate_distributions keyword is True.")
     parser.add_argument('--input_hdf5_file_directory', dest = 'input_hdf5_file_directory', required = False, type = str, default = './', help = "Input hdf5 file directory location to calculate the plot (default: './'). Useful if plot_distributions keyword is True.")
     parser.add_argument('-rfi_level', dest = 'rfilevel', required = True, type = int, help = "Level of RFI mitigation (required).")
-    parser.add_argument('--ouput_directory', dest = 'output_directory', required = False, type = str, default = './', help = "Output directory (default: './').")
+    parser.add_argument('--output_directory', dest = 'output_directory', required = False, type = str, default = './', help = "Output directory (default: './').")
     parser.add_argument('--color_map', dest = 'cmap', required = False, type = str, default = 'viridis', help = "Color map for plots (default: 'viridis').")
     parser.add_argument('--calculate_distributions', dest = 'calculate_distributions', default = False, action = 'store_true',
                         help = 'Keyword to calculate and save the distributions (default: False). If False, and plot_distributions keyword is True, the plotting function will try to load pre-calculated distribution from hdf5 files')
     parser.add_argument('--plot_distributions_rfi', dest = 'plot_distributions_rfi', default = False, action = 'store_true',
                         help = "Keyword to plot the RFI distributions (default: False).")
+    parser.add_argument('--plot_time_freq_distributions_rfi', dest = 'plot_time_freq_distributions_rfi', default = False, action = 'store_true',
+                        help = "Kewyord to plot the RFI distribution in the time vs. freq plan (with histograms on the side)")
     parser.add_argument('--plot_distributions_observations', dest = 'plot_distributions_observations', default = False, action = 'store_true',
                         help = "Keyword to plot the Observations 2D distributions (default: False).")
     parser.add_argument('--plot_histograms', dest = 'plot_histograms', default = False, action = 'store_true',
@@ -429,7 +432,7 @@ if __name__ == '__main__':
                                              args.output_directory,
                                              args.save_hdf5
                                             )
-        
+    
     if args.calculate_distributions == False:
         print("#### Restoring distributions from hdf5 file ####")
         (time_datetime, ffreq, flag,
@@ -458,6 +461,7 @@ if __name__ == '__main__':
                       args.elaz_square,
                       args.elaz_polar_projection,
                       args.plot_distributions_rfi,
+                      args.plot_time_freq_distributions_rfi,
                       args.plot_distributions_observations,
                       args.plot_histograms,
                       time_datetime,
