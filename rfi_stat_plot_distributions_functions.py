@@ -42,11 +42,11 @@ def plot_distribution_freq(
     save_image: bool = False, 
     filename: str = "image", 
     title: str = None, 
-    cb_title: str = 'Unflagged data (%)',
+    cb_title: str = 'Flagged data (%)',
     fig = None,
     ax = None,
     **kwargs
-) -> tuple:
+    ) -> tuple:
     """
     Create a pcolormesh plot to visualize the distribution of values.
 
@@ -129,6 +129,8 @@ def plot_distribution_freq(
 
     plt.xticks(fontsize=40)
     plt.yticks(fontsize=40)
+    ax_.xaxis.set_minor_locator(MultipleLocator(1))
+    ax_.yaxis.set_minor_locator(MultipleLocator(1))
     ax_.tick_params(labelsize=fs_ticks)
 
     # CBAR
@@ -224,7 +226,7 @@ def plot_distribution_elaz(
         # CBAR
         cb = fig_.colorbar(im, extend='both', shrink=0.9, cax=cax, ax=ax_)
         cb.ax.tick_params(labelsize=fs_ticks)
-        cb.set_label(r'Unflagged data (%)', fontsize=fs_labels)
+        cb.set_label(r'Flagged data (%)', fontsize=fs_labels)
 
         #if fig == None and ax == None:
             #fig_.tight_layout()
@@ -242,7 +244,7 @@ def plot_distribution_mollweide(
         freqs: numpy.ndarray,
         vmin: float = 1,
         vmax: float  = 100,
-        unit: str = 'Unflagged data (%)',
+        unit: str = 'Flagged data (%)',
         log_colorbar: str = None, #option is None, 'log', or 'hist'
         save_image: bool = False,
         projection_type: str = 'mollview',
@@ -308,14 +310,15 @@ def plot_distribution_mollweide(
         ax = fig.add_subplot(111, projection='mollweide')
 
         # Plot the data on the Mollweide projection
-        
         # Set title
         if title == None:
             title_ = f'Azimuth vs. elevation distribution of the RFI (level {rfilevel})'+'\n'+f'Frequency {freq:.4f} MHz'
         if projection_type == 'mollview':
             hp.mollview(hpx_map, cmap=cmap, hold=True, nest=False, min = vmin, max = vmax, cbar=False, flip = 'astro', rot=center_projection, title = title_)
         if projection_type == 'orthview':
-            hp.orthview(hpx_map, cmap=cmap, hold=True, nest=False, min = vmin, max = vmax, cbar=True, unit = unit, norm = log_colorbar, flip = 'astro', rot=center_projection, half_sky=half_sky, title = title_)
+            hp.orthview(hpx_map, cmap=cmap, hold=True, nest=False, 
+                        min = vmin, max = vmax,
+                        cbar=True, unit = unit, norm = log_colorbar, flip = 'astro', rot=center_projection, half_sky=half_sky, title = title_)
 
         # Create a custom vertical colorbar
         #cax = inset_axes(
@@ -528,6 +531,7 @@ def plot_distribution_with_histograms(ffreq: numpy.array,
                                       filename: str = "image",
                                       cmap: str = 'viridis',
                                       type_1D_histograms: str = r'Occurrence'+'\n'+r'(# of 6-minute observations)',
+                                      cb_title = "Flagged data (%)",
                                       type_x: str = None,
                                       type_y: str = None
                                       ) -> tuple:
@@ -539,14 +543,9 @@ def plot_distribution_with_histograms(ffreq: numpy.array,
     
     fig_main ,ax_main = plt.subplots(2,2,figsize=figsize)
 
-#    fig_main = plt.figure(figsize=figsize)
-#    gs = fig_main.add_gridspec(2, 2, width_ratios=[1, 1], height_ratios=[1, 1])
+    distribution_2D = 1-distribution_2D
     
-#    ax_main = [[fig_main.add_subplot(gs[i, j]) for j in range(2)] for i in range(2)]
-
-
-
-    (fig_main, ax_main[0,1], cb) = plot_distribution_freq(ffreq, distribution_2D, type=type_x, shading=shading_distrib_2D, cmap = cmap, fig = fig_main,ax = ax_main[0,1], cb_title = type_1D_histograms)
+    (fig_main, ax_main[0,1], cb) = plot_distribution_freq(ffreq, distribution_2D, type=type_x, shading=shading_distrib_2D, cmap = cmap, fig = fig_main,ax = ax_main[0,1], cb_title = cb_title)
     (fig_main, ax_main[1,1]) = plot_1D_distribution_observation(distribution_1D_histogram_x, bins_distribution_1D_histogram_x, type=type_x, fig = fig_main,ax = ax_main[1,1])
     (fig_main, ax_main[0,0]) = plot_1D_distribution_observation(distribution_1D_histogram_y, bins_distribution_1D_histogram_y, type=type_y, fig = fig_main,ax = ax_main[0,0], inverse_axis = True)
 
@@ -562,12 +561,19 @@ def plot_distribution_with_histograms(ffreq: numpy.array,
     ax200.set_xlim(ax_main[0,0].get_xlim())
     ax200.set_xscale('log')
     ax200.set_xticklabels([])
-
+    ax200.yaxis.set_minor_locator(MultipleLocator(1))
     
     ax211 = ax_main[1,1].twinx()
     ax211.set_ylim(ax_main[1,1].get_ylim())
     ax211.set_yscale('log')
     ax211.set_yticklabels([])
+    ax211.xaxis.set_minor_locator(MultipleLocator(1))
+
+    # to avoid having to many minor ticks for Azimuth (range [0,360]):
+    if type_x.lower() == "azimuth":
+        ax_main[0,1].xaxis.set_minor_locator(MultipleLocator(10))
+        ax200.yaxis.set_minor_locator(MultipleLocator(10))
+        ax211.xaxis.set_minor_locator(MultipleLocator(10))
 
     ax_main[0,0].set_xlabel('')
     ax_main[1,1].set_ylabel('')
@@ -604,6 +610,7 @@ def plot_distribution_with_mean_flag_histo(ffreq: numpy.array,
         print("######## e.g., type_x = 'elevation' and type_y = 'frequency' ########")
         return
     
+    distribution_2D = 1-distribution_2D
 
     if type_x == 'elevation':
         bins_x = numpy.linspace(0, 90, 91)
@@ -627,6 +634,7 @@ def plot_distribution_with_mean_flag_histo(ffreq: numpy.array,
     fs_labels = 15
     fs_ticks = 12
 
+    
     fig_main ,ax_main = plt.subplots(2,2,figsize=figsize)
     (fig_main, ax_main[0,1], cb) = plot_distribution_freq(ffreq, distribution_2D, type=type_x, shading=shading_distrib_2D, cmap = cmap, fig = fig_main,ax = ax_main[0,1])
     ax_main[0,0].barh(bins_y, numpy.nanmean(distribution_2D, axis=0)*100)
@@ -634,6 +642,18 @@ def plot_distribution_with_mean_flag_histo(ffreq: numpy.array,
     ax_main[1,1].bar(bins_x, numpy.nanmean(distribution_2D, axis=1)*100)
     ax_main[1,1].set_xlabel(xtitle, fontsize=fs_labels)
 
+    if type_x.lower() == "azimuth":
+        ax_main[0,1].xaxis.set_minor_locator(MultipleLocator(10))
+        ax_main[1,1].xaxis.set_minor_locator(MultipleLocator(10))
+    else:
+        ax_main[0,1].xaxis.set_minor_locator(MultipleLocator(1))
+        ax_main[1,1].xaxis.set_minor_locator(MultipleLocator(1))
+
+    
+    ax_main[0,0].xaxis.set_minor_locator(MultipleLocator(1))
+    ax_main[0,0].yaxis.set_minor_locator(MultipleLocator(1))
+    ax_main[0,1].yaxis.set_minor_locator(MultipleLocator(1))
+    ax_main[1,1].yaxis.set_minor_locator(MultipleLocator(1))        
 
     ax_main[1,0].axis('off')
     
@@ -777,6 +797,11 @@ def plot_flag_freq_versus_time_distribution_with_histograms(time: numpy.array, #
     dateFmt = mdates.DateFormatter('%Y\n%B')
     ax_[0,0].yaxis.set_major_formatter(dateFmt)
     ax_[0,0].tick_params(labelsize=fs_ticks)
+
+    ax_[0,0].xaxis.set_minor_locator(MultipleLocator(5))
+    ax_[1,1].xaxis.set_minor_locator(MultipleLocator(1))
+    ax_[1,1].yaxis.set_minor_locator(MultipleLocator(5))
+    ax_[0,1].xaxis.set_minor_locator(MultipleLocator(1))
 
     # Axis boundaries
     ax_[0,0].set_xlim(vmin, vmax)
