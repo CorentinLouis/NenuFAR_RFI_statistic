@@ -3,6 +3,7 @@
 import datetime
 import numpy
 import pytz
+from astropy.time import Time, TimeDelta
 
 @numpy.vectorize
 def doy_to_ymd(doy,hours,minutes,second):
@@ -35,12 +36,12 @@ def return_hour_minute(date):
 @numpy.vectorize
 def datetime_to_timestamp(datetime_table):
     ### Function to return time in floating format (from a datetime object)
-    return datetime_table.timestamp()
+    return Time(datetime_table, format="datetime").unix
 
 @numpy.vectorize
 def timestamp_to_datetime(timestamp_table):
     ### Function to return time in datetime format (from a timestamp object)
-    result = datetime.datetime.fromtimestamp(timestamp_table)
+    result = Time(timestamp_table, format="unix").datetime
     return (result)
 
 def doy_specific_year_to_yyyyddd(doy, origin):  
