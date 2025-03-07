@@ -16,7 +16,7 @@ Options:
     --ouput_directory           Output directory (default: "./").
     --color_map                 Color map for plots (default: 'viridis').
     --calculate_distributions   Keyword to calculate and save the distributions (default: False). If False, and plot_distributions keyword is True, the plotting function will try to load pre-calculated distribution from hdf5 files.
-    --calculate_distributions   Keyword to plot the distributions (default: False).
+    --plot_distributions        Keyword to plot the distributions (default: False).
     --local_time                Keyword to plot only on local time (default: False).
     --azimuth                   Keyword to plot only on azimuth (default: False).
     --elevation                 Keyword to plot only on elevation (default: False).
