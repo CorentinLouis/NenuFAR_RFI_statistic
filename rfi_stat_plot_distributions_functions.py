@@ -759,7 +759,7 @@ def plot_flag_freq_versus_time_distribution_with_histograms(time: numpy.array, #
 
     
     if fig == None and ax == None:
-        fig_, ax_ = plt.subplots(2, 2, gridspec_kw={'height_ratios': [2, 1], 'width_ratios': [1,2]}, figsize=(10, 10))
+        fig_, ax_ = plt.subplots(2, 2, gridspec_kw={'height_ratios': [2, 1], 'width_ratios': [5,12]}, figsize=(10, 10))
     else:
         fig_ = fig
         ax_ = ax
@@ -776,15 +776,15 @@ def plot_flag_freq_versus_time_distribution_with_histograms(time: numpy.array, #
     num_time_intervals_with_nans = mdates.date2num(bins_with_nans_inserted)
     
     # Ploting using pcolormesh with regularly spaced numerical data
-    im = ax_[0, 1].pcolormesh(freq, num_time_intervals_with_nans, (1-D_with_nans_inserted)*100, norm=scaleZ, cmap=cmap, **kwargs) #, shading='nearest'
+    im = ax_[0, 1].pcolormesh(num_time_intervals_with_nans, freq, (1-D_with_nans_inserted.T)*100, norm=scaleZ, cmap=cmap, **kwargs) #, shading='nearest'
 
     # Calculating histograms of the specific (time,freq) window asked by the user
     D_mean_per_freq = numpy.nanmean(distribution[(time>=time_min) & (time<= time_max),:], axis = 0)
     D_mean_per_time = numpy.nanmean(D_with_nans_inserted[:,(freq>=freq_min) & (freq<=freq_max)], axis = 1)
 
     
-    ax_[0,0].plot((1-D_mean_per_time)*100, num_time_intervals_with_nans, 'k-')
-    ax_[1,1].plot(freq, (1-D_mean_per_freq)*100, color = 'black')
+    ax_[1,1].plot(num_time_intervals_with_nans, (1-D_mean_per_time)*100, 'k-')
+    ax_[0,0].plot((1-D_mean_per_freq)*100, freq, color = 'black')
     ax_[0,0].grid(True)
     ax_[1,1].grid(True)
     
@@ -792,22 +792,22 @@ def plot_flag_freq_versus_time_distribution_with_histograms(time: numpy.array, #
     # Time format for axis
     major_locator=mdates.MonthLocator(interval=6)
     minor_locator=mdates.MonthLocator(interval=1)
-    ax_[0,0].yaxis.set_major_locator(major_locator)
-    ax_[0,0].yaxis.set_minor_locator(minor_locator)
+    ax_[1,1].xaxis.set_major_locator(major_locator)
+    ax_[1,1].xaxis.set_minor_locator(minor_locator)
     dateFmt = mdates.DateFormatter('%Y\n%B')
-    ax_[0,0].yaxis.set_major_formatter(dateFmt)
-    ax_[0,0].tick_params(labelsize=fs_ticks)
+    ax_[1,1].xaxis.set_major_formatter(dateFmt)
+    ax_[1,1].tick_params(labelsize=fs_ticks)
 
-    ax_[0,0].xaxis.set_minor_locator(MultipleLocator(5))
-    ax_[1,1].xaxis.set_minor_locator(MultipleLocator(1))
     ax_[1,1].yaxis.set_minor_locator(MultipleLocator(5))
-    ax_[0,1].xaxis.set_minor_locator(MultipleLocator(1))
+    ax_[0,0].yaxis.set_minor_locator(MultipleLocator(1))
+    ax_[0,0].xaxis.set_minor_locator(MultipleLocator(5))
+    ax_[0,1].yaxis.set_minor_locator(MultipleLocator(1))
 
     # Axis boundaries
-    ax_[0,0].set_xlim(vmin, vmax)
-    ax_[0,0].set_ylim(time_min, time_max)
-    ax_[1,1].set_xlim(freq_min, freq_max)
     ax_[1,1].set_ylim(vmin, vmax)
+    ax_[1,1].set_xlim(time_min, time_max)
+    ax_[0,0].set_ylim(freq_min, freq_max)
+    ax_[0,0].set_xlim(vmin, vmax)
 
     # Modifying axes so that axes are correclty shared between panels
     ax_[1,0].axis('off')
@@ -832,9 +832,11 @@ def plot_flag_freq_versus_time_distribution_with_histograms(time: numpy.array, #
     plt.xticks(fontsize=40)
     plt.yticks(fontsize=40)
     ax_[0,0].tick_params(labelsize=fs_ticks)
+    #ax_[0,1].set_xticklabels([])
+    #ax_[0,1].set_yticklabels([])
     ax_[0,1].tick_params(labelsize=fs_ticks)
     ax_[1,1].tick_params(labelsize=fs_ticks)
-
+    
     
     # configuring color bar
     ax2pos = ax_[0,1].get_position()
@@ -854,19 +856,26 @@ def plot_flag_freq_versus_time_distribution_with_histograms(time: numpy.array, #
     else:
         ax_[0,1].set_title(title, fontsize=fs_labels+2)
 
-    # shared label for histograms
-    extralabel = cb_title     
-    ax_[0,0].annotate(extralabel, (0.12, 0.15), xycoords='figure fraction', fontsize=fs_labels)
+    ## shared label for histograms
+    #extralabel = cb_title     
+    #ax_[0,0].annotate(extralabel, (0.12, 0.15), xycoords='figure fraction', fontsize=fs_labels)
 
 
     if fig == None and ax == None:
-        ax_[0,0].set_ylabel(r'Time', fontsize=fs_labels)
+        ax_[1,1].set_xlabel(r'Time', fontsize=fs_labels)
         ylabel = r'Frequency (MHz)'
-        ax_[1,1].set_xlabel(ylabel, fontsize=fs_labels)
-        plt.subplots_adjust(wspace=0.3,hspace=0.1)
+        ax_[0,0].set_ylabel(ylabel, fontsize=fs_labels)
+        ax_[0,0].set_xlabel(cb_title, fontsize=fs_labels)
+        ax_[1,1].set_ylabel(cb_title, fontsize=fs_labels)
+        plt.subplots_adjust(wspace=0.2,hspace=0.2)
+
         
+#        plt.tight_layout()
+
     if save_image:
         plt.savefig(filename + '.png', dpi=300, bbox_inches='tight')
         plt.close()
+    
+
 
     return(fig_, ax_)
