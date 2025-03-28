@@ -1,0 +1,30 @@
+cff-version: 1.1.0
+message: "If you use this software, please cite it as below."
+title: "A Pipeline to analyze the radio frequency interference (RFI) environement at the NenuFAR radiotelescope using LT02 (Exoplanets) observations"
+authors:
+  - family-names: "Louis"
+    given-names: "Corentin K."
+    orcid: "0000-0002-9552-8822"
+    affiliation: "https://ror.org/02eptjh02, https://ror.org/01vqrde47"
+- family-names: "Zarka"
+    given-names: "Philippe"
+    orcid: "0000-0003-1672-9878"
+    affiliation: "https://ror.org/02eptjh02, https://ror.org/01vqrde47"
+- family-names: "Loh"
+    given-names: "Alan"
+    orcid: "0000-0002-4698-9542"
+    affiliation: "https://ror.org/02eptjh02, https://ror.org/01vqrde47"
+license: "MIT"
+version: 1.0.0
+doi: 
+date-released: 2025-03-28
+url: "https://github.com/CorentinLouis/NenuFAR_RFI_statistic"
+abstract: |
+  "This pipeline contains routines for analyzing and plotting statistical distributions of the radio frequency interference (RFI) environement at the NenuFAR radiotelescope using LT02 (Exoplanets) observations"
+keywords:
+  - "Radio Emissions"
+  - "Radioastronomy"
+  - "Data Processing"
+  - "Data Analysis"
+funding:
+  - "ERC under the European Union’s Horizon 2020 research and innovation program (grant agreement No. 101020459—Exoradio)"
