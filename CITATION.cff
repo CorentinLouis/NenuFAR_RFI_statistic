@@ -18,7 +18,7 @@ license: "MIT"
 version: 1.0.0
 date-released: 2025-03-28
 url: "https://github.com/CorentinLouis/NenuFAR_RFI_statistic"
-doi: 10.5281/zenodo.tba
+doi: 10.5281/zenodo.15102547
 abstract:
   This pipeline contains routines for analyzing and plotting statistical distributions of the radio frequency interference (RFI) environement at the NenuFAR radiotelescope using LT02 (Exoplanets) observations
 keywords:
