@@ -1,4 +1,4 @@
-cff-version: 1.1.0
+cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 title: "A Pipeline to analyze the radio frequency interference (RFI) environement at the NenuFAR radiotelescope using LT02 (Exoplanets) observations"
 authors:
