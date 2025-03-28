@@ -1,4 +1,4 @@
-# NenuFAR_RFI_statistic
+# A Pipeline to analyze the radio frequency interference (RFI) environement at the NenuFAR radiotelescope using LT02 (Exoplanets) observations
 Routines for analyzing the radio frequency interference (RFI) environement at the NenuFAR radiotelescope using LT02 (Exoplanets) observations
 
 
