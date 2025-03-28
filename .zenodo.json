@@ -1,0 +1,52 @@
+{
+    "creators": [
+        {
+            "name": "Louis, Corentin K.",
+            "orcid": "0000-0002-9552-8822",
+            "affiliation": [
+                "https://ror.org/02eptjh02",
+                "https://ror.org/01vqrde47"
+            ]
+        },
+      {
+            "name": "Zarka, Philippe",
+            "orcid": "0000-0003-1672-9878",
+            "affiliation": [
+                "https://ror.org/02eptjh02",
+                "https://ror.org/01vqrde47"
+            ]
+        },
+        {
+            "name": "Loh, Alan",
+            "orcid": "0000-0002-4698-9542",
+            "affiliation": [
+                "https://ror.org/02eptjh02",
+                "https://ror.org/01vqrde47"
+            ]
+        }
+    ],
+    "license": "MIT",
+    "title": "A Pipeline to analyze the radio frequency interference (RFI) environement at the NenuFAR radiotelescope using LT02 (Exoplanets) observations",
+    "description": "This pipeline contains routines for analyzing and plotting statistical distributions of the radio frequency interference (RFI) environement at the NenuFAR radiotelescope using LT02 (Exoplanets) observations",
+    "notes": "This work has also been supported by the ERC under the European Union’s Horizon 2020 research and innovation program (grant agreement N◦101020459—Exoradio)",
+    "keywords": [
+        "Radio Emissions",
+        "Radioastronomy",
+        "Data Processing",
+        "Data Analysis",
+        "Radio Frequency Interferences (RFI)"
+    ],
+    "related_identifiers": [
+        {
+            "scheme": "url",
+            "identifier": "https://github.com/CorentinLouis/NenuFAR_RFI_statistic",
+            "relation": "isSupplementTo",
+            "resource_type": "software"
+        }
+    ],
+    "grants": [
+        {
+            "id": "101020459"
+        }
+    ]
+}
