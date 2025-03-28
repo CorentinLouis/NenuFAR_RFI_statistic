@@ -1,7 +1,7 @@
 # A Pipeline to analyze the radio frequency interference (RFI) environement at the NenuFAR radiotelescope using LT02 (Exoplanets) observations
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![DOI](https://zenodo.org/badge/723092575.svg)](https://zenodo.org/badge/latestdoi/723092575)722541453
+[![DOI](https://zenodo.org/badge/722541453.svg)](https://zenodo.org/badge/latestdoi/722541453)
 
 
 Routines for analyzing the radio frequency interference (RFI) environement at the NenuFAR radiotelescope using LT02 (Exoplanets) observations
