@@ -20,7 +20,7 @@ doi:
 date-released: 2025-03-28
 url: "https://github.com/CorentinLouis/NenuFAR_RFI_statistic"
 abstract: |
-  "This pipeline contains routines for analyzing and plotting statistical distributions of the radio frequency interference (RFI) environement at the NenuFAR radiotelescope using LT02 (Exoplanets) observations"
+  This pipeline contains routines for analyzing and plotting statistical distributions of the radio frequency interference (RFI) environement at the NenuFAR radiotelescope using LT02 (Exoplanets) observations
 keywords:
   - "Radio Emissions"
   - "Radioastronomy"
